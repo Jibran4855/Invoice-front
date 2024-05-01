@@ -1,0 +1,120 @@
+$white: #fff !default;
+$black: #000 !default;
+$primary: #6856dd !default;
+$secondary: #807ba1 !default;
+
+
+.login-card {
+    background-color: #ffffffc9 !important;
+
+    .text-muted {
+        color: $black !important
+    }
+
+    .heading-box {
+        h1 {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            i {
+                font-size: 30px;
+                background-color: $primary;
+                color: $white;
+                padding: 12px;
+                border-radius: 100%;
+                margin-right: 5px;
+            }
+        }
+
+    }
+}
+
+// Login Bg
+.custom-bg-gradient-dark {
+    background-image: linear-gradient(182deg, $primary 0px, $primary 130%);
+}
+
+// Home Header bg
+.custom-bg-gradient-main {
+    background-image: linear-gradient(182deg, $primary 0px, $primary 130%);
+}
+
+// btn bg
+.primary-btn {
+    background-color: $primary;
+    color: $white;
+}
+
+.secondary-btn {
+    background-color: $secondary;
+}
+
+// Table Pagination text margin
+.MuiTablePagination-selectLabel,
+.MuiTablePagination-displayedRows {
+    margin: 0;
+}
+
+// Google Search Input
+.ant-select.form-control {
+    padding: 0 !important;
+}
+
+.ant-select-selector {
+    height: calc(1.5em + 1.25rem + 2px) !important;
+    border: none !important;
+    padding: 0.425rem 0.75rem !important;
+    border-radius: 0.375rem !important;
+
+    .ant-select-selection-search-input {
+        padding: 0.625rem 0.15rem !important;
+        height: calc(1.5em + 1.25rem + 2px) !important;
+        color: #8898aa !important;
+    }
+}
+
+// Invoice Start
+#create-invoice-container {
+    .customer-info-box {
+        input {
+            // margin-bottom: 10px;
+        }
+    }
+
+    .invoice-table-row {
+        table {
+            thead {
+                h4 {
+                    margin: 0 !important;
+                }
+
+                .add-product-btn-box {
+                    display: flex;
+                    align-items: center;
+
+                    i.fa {
+                        color: green;
+                        font-size: 20px;
+                        cursor: pointer;
+                    }
+                }
+            }
+
+            tbody {
+                i.fa-times-circle {
+                    color: red;
+                    font-size: 20px;
+                    cursor: pointer;
+                }
+            }
+        }
+    }
+}
+
+// Invoice End
+
+.cursor-pointer {
+    cursor: pointer;
+    color: #42a5f5;
+}
