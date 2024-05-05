@@ -54,6 +54,7 @@ const InvoiceCreate = (props) => {
   const [createdInvoiceId, setCreatedInvoiceId] = useState("");
 
   useEffect(() => {
+    generateInvoiceNumber();
     getAllCustomers();
     getAllProducts();
   }, []);
@@ -70,6 +71,22 @@ const InvoiceCreate = (props) => {
       behavior: 'smooth'
     });
   }
+
+  const generateInvoiceNumber = async () => {
+    try {
+      dispatch(setLoader(true));
+      const response = await InvoiceServices.generateInvoiceNumber();
+      setInvoiceData(prev => ({
+        ...prev,
+        invoiceNumber: response.data.invoiceNumber
+      }))
+      dispatch(setLoader(false));
+    } catch (e) {
+      console.log({ e });
+      dispatch(setLoader(false));
+      dispatch(setError(e.data.error));
+    }
+  };
 
   const getAllCustomers = async () => {
     try {
@@ -124,6 +141,7 @@ const InvoiceCreate = (props) => {
       dispatch(setSuccess(response.message));
       setShowInvoiceDownload(true)
       setCreatedInvoiceId(response.data.id)
+      generateInvoiceNumber();
     } catch (e) {
       console.log({ e });
       dispatch(setLoader(false));
@@ -154,10 +172,10 @@ const InvoiceCreate = (props) => {
         [name]: value
       }))
     }
-    setInvoiceData({
-      invoiceStatus: "open",
-      invoiceType: "invoice",
-    });
+    // setInvoiceData({
+    //   invoiceStatus: "open",
+    //   invoiceType: "invoice",
+    // });
 
   }
 
@@ -180,7 +198,7 @@ const InvoiceCreate = (props) => {
     let data = {
       ...invoiceData,
       customer: { ...invoiceCustomerData, shipping: { ...invoiceShippingData } },
-      products: invoiceProductData,
+      products: invoiceProductData.filter(obj => obj?.name),
       total: { ...invoiceAmountCalc },
       additionalNote: additionalNote,
       customeEmail: customeEmail,
@@ -212,7 +230,7 @@ const InvoiceCreate = (props) => {
   const myResetFunction = () => {
     dateInputElement.current.state.inputValue = '';
     // setValue('');
-};
+  };
 
   console.log(invoiceData);
   return (
@@ -317,8 +335,10 @@ const InvoiceCreate = (props) => {
                   </span>
                 </div>
                 <Input
+                  className="pl-1"
                   placeholder="Invoice Number"
                   type="text"
+                  disabled={true}
                   name="invoiceNumber"
                   value={invoiceData?.invoiceNumber ?? ""}
                   onChange={handleInvoiceFormChange}
@@ -569,7 +589,7 @@ const InvoiceCreate = (props) => {
                   <div >
                     TAX/VAT:
                   </div>
-                  <label for="remove_vat" className="pr-4">Remove TAX/VAT</label>
+                  <label for="remove_vat" className="pr-4">Add TAX/VAT</label>
                   <Input
                     type="checkbox"
                     id="remove_vat"
