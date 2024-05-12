@@ -92,7 +92,7 @@ const VenderProfile = (props) => {
                             type="text"
                             name="invoiceTitle"
                             disabled={true}
-                            defaultValue={userData?.invoiceTitle}
+                            value={userData?.invoiceTitle}
                             onChange={handleUserFormChange}
                           />
                         </FormGroup>
@@ -110,7 +110,7 @@ const VenderProfile = (props) => {
                             placeholder="Username"
                             type="text"
                             name="fullname"
-                            defaultValue={userData?.fullname}
+                            value={userData?.fullname}
                             onChange={handleUserFormChange}
                           />
                         </FormGroup>
@@ -129,7 +129,7 @@ const VenderProfile = (props) => {
                             type="email"
                             disabled={true}
                             name="email"
-                            defaultValue={userData?.email}
+                            value={userData?.email}
                             onChange={handleUserFormChange}
                           />
                         </FormGroup>
@@ -150,7 +150,7 @@ const VenderProfile = (props) => {
                             placeholder="Contact"
                             type="text"
                             name="phone"
-                            defaultValue={userData?.phone}
+                            value={userData?.phone}
                             onChange={handleUserFormChange}
                           />
                         </FormGroup>
@@ -168,7 +168,7 @@ const VenderProfile = (props) => {
                             id="input-first-name"
                             type="date"
                             name="dob"
-                            defaultValue={userData?.dob}
+                            value={userData?.dob}
                             onChange={handleUserFormChange}
                           />
                         </FormGroup>
@@ -220,7 +220,7 @@ const VenderProfile = (props) => {
                             placeholder="Old Password"
                             type="password"
                             name="oldPassword"
-                            defaultValue={userData?.oldPassword ?? ""}
+                            value={userData?.oldPassword ?? ""}
                             onChange={handleUserFormChange}
                           />
                         </FormGroup>
@@ -238,7 +238,7 @@ const VenderProfile = (props) => {
                             placeholder="New Password"
                             type="password"
                             name="password"
-                            defaultValue={userData?.password ?? ""}
+                            value={userData?.password ?? ""}
                             onChange={handleUserFormChange}
                           />
                         </FormGroup>
@@ -256,7 +256,7 @@ const VenderProfile = (props) => {
                             placeholder="Confirm Password"
                             type="password"
                             name="confirmPassword"
-                            defaultValue={userData?.confirmPassword ?? ""}
+                            value={userData?.confirmPassword ?? ""}
                             onChange={handleUserFormChange}
                           />
                         </FormGroup>

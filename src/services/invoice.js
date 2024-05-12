@@ -143,6 +143,26 @@ class InvoiceClass {
         });
     });
   };
+
+  generateInvoiceNumber = async () => {
+    const API_PATH = `${process.env.REACT_APP_API_URL}/api/invoice-number`;
+    return new Promise((resolve, reject) => {
+      axios({
+        method: "get",
+        url: API_PATH,
+        headers: {
+          "content-type": "application/json",
+          authorization: "Bearer " + localStorage.getItem("itoken"),
+        },
+      })
+        .then((res) => {
+          resolve(res.data);
+        })
+        .catch((e) => {
+          reject(e.response);
+        });
+    });
+  };
 }
 const InvoiceServices = new InvoiceClass();
 export { InvoiceServices };

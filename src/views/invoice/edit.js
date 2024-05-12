@@ -183,7 +183,7 @@ const InvoiceEdit = (props) => {
     let data = {
       ...invoiceData,
       customer: { ...invoiceCustomerData, shipping: { ...invoiceShippingData } },
-      products: invoiceProductData,
+      products: invoiceProductData.filter(obj => obj?.name),
       total: { ...invoiceAmountCalc },
       additionalNote: additionalNote,
       customeEmail: customeEmail,
@@ -290,8 +290,10 @@ const InvoiceEdit = (props) => {
                   </span>
                 </div>
                 <Input
+                  className="pl-1"
                   placeholder="Invoice Number"
                   type="text"
+                  disabled={true}
                   name="invoiceNumber"
                   value={invoiceData?.invoiceNumber ?? ""}
                   onChange={handleInvoiceFormChange}
@@ -545,7 +547,7 @@ const InvoiceEdit = (props) => {
                   <div >
                     TAX/VAT:
                   </div>
-                  <label for="remove_vat" className="pr-4">Remove TAX/VAT</label>
+                  <label for="remove_vat" className="pr-4">Add TAX/VAT</label>
                   <Input
                     type="checkbox"
                     id="remove_vat"

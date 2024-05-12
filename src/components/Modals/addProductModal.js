@@ -61,7 +61,7 @@ function MyVerticallyCenteredModal(props) {
 
         <FormGroup>
           <label className="form-control-label">
-            Name
+            Name <span className="text-danger">*</span>
           </label>
 
           <Input
@@ -93,7 +93,7 @@ function MyVerticallyCenteredModal(props) {
 
         <FormGroup>
           <label className="form-control-label">
-            Price
+            Price <span className="text-danger">*</span>
           </label>
 
           <div className="input-group-merge input-group">

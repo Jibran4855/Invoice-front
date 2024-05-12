@@ -44,6 +44,8 @@ const Dashboard = (props) => {
   const [activeNav, setActiveNav] = useState(1);
   const [count, setCounts] = useState(false);
   const [chartExample1Data, setChartExample1Data] = useState("data1");
+  const [salesGraphData, setSalesGraphData] = useState({});
+  const [invoiceGraphData, setInvoiceGraphData] = useState({});
 
 
   if (window.Chart) {
@@ -56,12 +58,31 @@ const Dashboard = (props) => {
     setChartExample1Data("data" + index);
   };
 
-
   const getAllHeaderCount = async () => {
     dispatch(setLoader(true));
     try {
       const response = await DashboardServices.getAllCount();
       setCounts(response.data);
+
+      setSalesGraphData({
+        labels: response.data.salesGraph.labels,
+        datasets: [
+          {
+            label: "Performance",
+            data: response.data.salesGraph.data,
+          },
+        ],
+      })
+
+      setInvoiceGraphData({
+        labels: response.data.totalInvoiceGraph.labels,
+        datasets: [
+          {
+            label: "Performance",
+            data: response.data.totalInvoiceGraph.data,
+          },
+        ],
+      })
       dispatch(setLoader(false));
     } catch (e) {
       console.log({ e });
@@ -70,6 +91,7 @@ const Dashboard = (props) => {
 
   useEffect(() => {
     getAllHeaderCount();
+    // let data = chartExample1['data1']();
   }, []);
 
   useEffect(async () => {
@@ -129,7 +151,7 @@ const Dashboard = (props) => {
               <CardBody>
                 <div className="chart">
                   <Line
-                    data={chartExample1[chartExample1Data]}
+                    data={salesGraphData}
                     options={chartExample1.options}
                     getDatasetAtEvent={(e) => console.log(e)}
                   />
@@ -152,7 +174,7 @@ const Dashboard = (props) => {
               <CardBody>
                 <div className="chart">
                   <Bar
-                    data={chartExample2.data}
+                    data={invoiceGraphData}
                     options={chartExample2.options}
                   />
                 </div>

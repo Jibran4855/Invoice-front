@@ -87,7 +87,7 @@ function MyVerticallyCenteredModal(props) {
 
                     <FormGroup className=" p-0 m-0">
                       <label className="form-control-label">
-                        Name
+                        Name <span className="text-danger">*</span>
                       </label>
                       <Input
                         placeholder="Name"
@@ -102,7 +102,7 @@ function MyVerticallyCenteredModal(props) {
                   <Col className="mb-2" lg="6">
                     <FormGroup className=" p-0 m-0">
                       <label className="form-control-label">
-                        E-mail Address
+                        E-mail Address <span className="text-danger">*</span>
                       </label>
                       <div className="input-group-merge input-group">
                         <div class="input-group-prepend">
@@ -200,7 +200,7 @@ function MyVerticallyCenteredModal(props) {
                   <Col className="mb-2" lg="6">
                     <FormGroup className=" p-0 m-0">
                       <label className="form-control-label">
-                        Phone Number
+                        Phone Number <span className="text-danger">*</span>
                       </label>
                       <Input
                         className="form-control"
@@ -229,7 +229,7 @@ function MyVerticallyCenteredModal(props) {
                   <Col className="mb-2" lg="6">
                     <FormGroup className=" p-0 m-0">
                       <label className="form-control-label">
-                        Enter Name
+                        Enter Name <span className="text-danger">*</span>
                       </label>
                       <Input
                         className="form-control"

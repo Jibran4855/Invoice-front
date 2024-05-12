@@ -49,7 +49,7 @@ function MyVerticallyCenteredModal(props) {
             <ModalBody className="bg-secondary">
                 <FormGroup>
                     <label className="form-control-label">
-                        Invoice Title
+                        Invoice Title <span className="text-danger">*</span>
                     </label>
                     <Input
                         type="text"
@@ -64,7 +64,7 @@ function MyVerticallyCenteredModal(props) {
 
                 <FormGroup>
                     <label className="form-control-label">
-                        Full Name
+                        Full Name <span className="text-danger">*</span>
                     </label>
                     <Input
                         type="text"
@@ -79,7 +79,7 @@ function MyVerticallyCenteredModal(props) {
 
                 <FormGroup>
                     <label className="form-control-label">
-                        Email
+                        Email <span className="text-danger">*</span>
                     </label>
                     <Input
                         type="email"
@@ -94,7 +94,7 @@ function MyVerticallyCenteredModal(props) {
 
                 <FormGroup>
                     <label className="form-control-label">
-                        Phone
+                        Phone <span className="text-danger">*</span>
                     </label>
                     <Input
                         type="number"
@@ -109,7 +109,7 @@ function MyVerticallyCenteredModal(props) {
 
                 <FormGroup>
                     <label className="form-control-label">
-                        Gender
+                        Gender <span className="text-danger">*</span>
                     </label>
                     <Input
                         name="gender"
@@ -127,7 +127,7 @@ function MyVerticallyCenteredModal(props) {
 
                 <FormGroup>
                     <label className="form-control-label">
-                        DOB
+                        DOB <span className="text-danger">*</span>
                     </label>
                     <Input
                         name="dob"
@@ -142,7 +142,7 @@ function MyVerticallyCenteredModal(props) {
 
                 <FormGroup>
                     <label className="form-control-label">
-                        Password
+                        Password <span className="text-danger">*</span>
                     </label>
                     <Input
                         type="password"
@@ -157,7 +157,7 @@ function MyVerticallyCenteredModal(props) {
 
                 <FormGroup>
                     <label className="form-control-label">
-                        Roles
+                        Roles <span className="text-danger">*</span>
                     </label>
                     <Input
                         name="roleIds"
