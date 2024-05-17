@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "npm run prod",
+    "start": "npm run dev",
     "prod": "react-scripts build && npm start",
     "dev": "npm-run-all --parallel watch:*",
     "watch:webpack": "react-scripts start",
