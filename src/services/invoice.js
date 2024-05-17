@@ -88,6 +88,7 @@ class InvoiceClass {
       axios({
         method: "get",
         url: API_PATH,
+        responseType: 'blob',
         headers: {
           "content-type": "application/json",
           authorization: "Bearer " + localStorage.getItem("itoken"),
