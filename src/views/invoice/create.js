@@ -29,7 +29,8 @@ import moment from "moment";
 const InvoiceCreate = (props) => {
   const dispatch = useDispatch();
 
-  const dateInputElement = useRef(null);
+  const dateInputElement1 = useRef(null);
+  const dateInputElement2 = useRef(null);
 
   const [invoiceData, setInvoiceData] = useState({
     invoiceStatus: "open",
@@ -128,7 +129,7 @@ const InvoiceCreate = (props) => {
       invoiceStatus: "open",
       invoiceType: "invoice",
     });
-
+    myResetFunction()
     ScrollToTopOnMount();
   }
 
@@ -216,7 +217,20 @@ const InvoiceCreate = (props) => {
   const downloadInvoice = async () => {
     try {
       dispatch(setLoader(true));
-      await InvoiceServices.downloadPdf(createdInvoiceId);
+
+      const response = await InvoiceServices.downloadPdf(createdInvoiceId);
+      const buffer =  await response.arrayBuffer();
+
+      const blob = new Blob([buffer], { type: 'application/pdf' });
+
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', 'report.pdf');
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      
       setShowInvoiceDownload(false)
       dispatch(setLoader(false));
     } catch (e) {
@@ -228,11 +242,10 @@ const InvoiceCreate = (props) => {
   };
 
   const myResetFunction = () => {
-    dateInputElement.current.state.inputValue = '';
-    // setValue('');
+    dateInputElement1.current.state.inputValue = '';
+    dateInputElement2.current.state.inputValue = '';
   };
 
-  console.log(invoiceData);
   return (
     <RightContent title="Create New Invoice" id='create-invoice-container'>
       <UncontrolledAlert color="success" isOpen={showInvoiceDownload} toggle={onCloseInvoiceDownload}>
@@ -283,7 +296,7 @@ const InvoiceCreate = (props) => {
                 timeFormat={false}
                 value={invoiceData?.issueDate ? invoiceData?.issueDate : ''}
                 defaultValue={invoiceData?.issueDate ? invoiceData?.issueDate : ''}
-                ref={dateInputElement}
+                ref={dateInputElement1}
                 closeOnSelect
                 onChange={(e) => {
                   handleInvoiceFormChange({
@@ -310,6 +323,8 @@ const InvoiceCreate = (props) => {
                 dateFormat='YYYY-MM-DD'
                 timeFormat={false}
                 value={invoiceData?.dueDate ?? ""}
+                ref={dateInputElement2}
+                closeOnSelect
                 onChange={(e) => {
                   handleInvoiceFormChange({
                     target: {

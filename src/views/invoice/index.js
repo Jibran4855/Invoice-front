@@ -39,12 +39,23 @@ const Invoices = (props) => {
     try {
       dispatch(setLoader(true));
       const response = await InvoiceServices.downloadPdf(id);
+      const buffer =  await response.arrayBuffer();
+
+      const blob = new Blob([buffer], { type: 'application/pdf' });
+
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', 'report.pdf');
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      
       // setInvoices(response.data);
       dispatch(setLoader(false));
     } catch (e) {
       console.log({ e });
       dispatch(setLoader(false));
-      dispatch(setError(e.data.error));
     }
 
   };
@@ -53,7 +64,6 @@ const Invoices = (props) => {
     try {
       dispatch(setLoader(true));
       const response = await InvoiceServices.downloadExcel();
-      console.log("🚀 ~ downloadExcel ~ response:", response)
 
       const url = window.URL.createObjectURL(new Blob([response]));
 
