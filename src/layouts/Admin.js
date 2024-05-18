@@ -90,7 +90,7 @@ const Admin = (props) => {
         //   imgSrc: require("../assets/img/brand/booky_logo.png").default,
         //   imgAlt: "...",
         // }}
-        title="Invoice"
+        title="Invoiciano"
       />
       <div className="main-content" ref={mainContent}>
         <AdminNavbar
