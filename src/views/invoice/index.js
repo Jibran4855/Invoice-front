@@ -1,13 +1,13 @@
 import { useState, useEffect } from "react";
 
 // reactstrap components
-import { Card, CardHeader, CardFooter, Container, Row, Button } from "reactstrap";
+import { Card, CardHeader, Container, Row, Button } from "reactstrap";
 
 import UserHeader from "components/Headers/UserHeader";
 import InvoiceTable from "../../components/tables/invoiceTable";
 import { InvoiceServices } from "services/invoice";
 
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setLoader } from "../../store/loader";
 import { setError, setSuccess } from "../../store/alert";
 import confirm from "reactstrap-confirm";
@@ -39,18 +39,18 @@ const Invoices = (props) => {
     try {
       dispatch(setLoader(true));
       const response = await InvoiceServices.downloadPdf(id);
-      const buffer =  await response.arrayBuffer();
+      const buffer = await response.arrayBuffer();
 
       const blob = new Blob([buffer], { type: 'application/pdf' });
 
       const url = window.URL.createObjectURL(blob);
       const link = document.createElement('a');
       link.href = url;
-      link.setAttribute('download', 'report.pdf');
+      link.setAttribute('download', 'invoice.pdf');
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
-      
+
       // setInvoices(response.data);
       dispatch(setLoader(false));
     } catch (e) {

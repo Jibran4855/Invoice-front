@@ -1,7 +1,6 @@
-import { useState, useEffect } from "react";
 
 // reactstrap components
-import { Card, CardHeader, CardBody, Container, Row, Col } from "reactstrap";
+import { Card, CardHeader, CardBody, Container, Row } from "reactstrap";
 import UserHeader from "components/Headers/UserHeader";
 
 const RightContent = (props) => {

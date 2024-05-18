@@ -1,4 +1,4 @@
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 // reactstrap components
 import {
   DropdownMenu,
@@ -6,11 +6,6 @@ import {
   UncontrolledDropdown,
   DropdownToggle,
   Form,
-  FormGroup,
-  InputGroupAddon,
-  InputGroupText,
-  Input,
-  InputGroup,
   Navbar,
   Nav,
   Container,
@@ -18,13 +13,9 @@ import {
 } from "reactstrap";
 import { userHasAuthenticated } from "store/auth";
 
-import Auth from "../../helpers/auth";
-import { useUser } from "hooks";
 import { useSelector, useDispatch } from "react-redux";
 
 const AdminNavbar = (props) => {
-  const history = useHistory();
-  // const currentUser = useUser();
   const currentUser = useSelector((state) => state.auth.user);
   const dispatch = useDispatch();
 

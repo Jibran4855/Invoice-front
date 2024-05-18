@@ -22,14 +22,12 @@ import {
   Col,
 } from "reactstrap";
 import { userHasAuthenticated } from "store/auth";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import SubMenu from "./SubMenu";
 import { useUser } from "../../hooks";
 
-var ps;
 
 const Sidebar = (props) => {
-  const history = useHistory();
   const dispatch = useDispatch();
   const currentUser = useUser().currentUser;
 
@@ -43,9 +41,9 @@ const Sidebar = (props) => {
 
   const [collapseOpen, setCollapseOpen] = useState();
   // verifies if routeName is the one active (in browser input)
-  const activeRoute = (routeName) => {
-    return props.location.pathname.indexOf(routeName) > -1 ? "active" : "";
-  };
+  // const activeRoute = (routeName) => {
+  //   return props.location.pathname.indexOf(routeName) > -1 ? "active" : "";
+  // };
   // toggles collapse between opened and closed (true/false)
   const toggleCollapse = () => {
     setCollapseOpen((data) => !data);
@@ -56,7 +54,7 @@ const Sidebar = (props) => {
   };
 
   const checkCanAccess = (prop) => {
-    if(!prop?.canAccess){
+    if (!prop?.canAccess) {
       return true;
     }
 
@@ -90,7 +88,7 @@ const Sidebar = (props) => {
     });
   };
 
-  const { bgColor, routes, logo, title } = props;
+  const { routes, logo, title } = props;
   let navbarBrandProps;
   if (logo && logo.innerLink) {
     navbarBrandProps = {

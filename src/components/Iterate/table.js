@@ -10,7 +10,7 @@ import { productPriceSymbol } from "../../helpers/product";
 function TableRows({ rows, tableRowRemove, onValUpdate, openSelectProductModal }) {
     return rows.map((rowsData, index) => {
 
-        const { name, quantity, price, discount, subTotal, total, _id } = rowsData;
+        const { name, quantity, price, discount, total } = rowsData;
 
         return (
             <tr key={index}>
