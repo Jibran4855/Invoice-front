@@ -13,7 +13,7 @@ import { useState, useEffect } from "react";
 
 import { useDispatch } from "react-redux";
 import { setLoader } from "store/loader";
-import { setError, setSuccess } from "../../store/alert";
+import { setError } from "../../store/alert";
 import UserTable from "components/tables/userTable";
 import AddUserModal from "components/Modals/addUserModal";
 import confirm from "reactstrap-confirm";

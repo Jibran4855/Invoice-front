@@ -1,14 +1,12 @@
-import React, { useState, useEffect, useContext } from "react";
-import { useHistory, Link } from "react-router-dom";
-// import { useQuery } from 'react-query'
-import { useSelector, useDispatch } from "react-redux";
+import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import { setLoader } from "../../store/loader";
-import { userHasAuthenticated, setUser } from "../../store/auth";
+import { userHasAuthenticated } from "../../store/auth";
 import { setError, setSuccess } from "../../store/alert";
 import {
   Button,
   Card,
-  CardHeader,
   CardBody,
   FormGroup,
   Form,
@@ -16,15 +14,12 @@ import {
   InputGroupAddon,
   InputGroupText,
   InputGroup,
-  Row,
   Col,
-  Container,
 } from "reactstrap";
 
 import { AuthServices } from "services/auth";
 
 const Login = () => {
-  const history = useHistory();
   const dispatch = useDispatch();
 
   const [email, setEmail] = useState("vendor@invoice.com");
@@ -35,7 +30,7 @@ const Login = () => {
     event.preventDefault();
     dispatch(setLoader(true));
     try {
-      const loginResponse = await AuthServices.login(email, password);
+      await AuthServices.login(email, password);
       dispatch(setLoader(false));
       dispatch(userHasAuthenticated(true));
       setTimeout(() => {

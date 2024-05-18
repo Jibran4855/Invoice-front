@@ -1,21 +1,14 @@
 import { useState, useEffect } from "react";
 // node.js library that concatenates classes (strings)
-import classnames from "classnames";
 // javascipt plugin for creating charts
 import Chart from "chart.js";
 // react plugin used to create charts
 import { Line, Bar } from "react-chartjs-2";
 // reactstrap components
 import {
-  Button,
   Card,
   CardHeader,
   CardBody,
-  NavItem,
-  NavLink,
-  Nav,
-  Progress,
-  Table,
   Container,
   Row,
   Col,
@@ -31,11 +24,8 @@ import {
 
 import Header from "components/Headers/Header.js";
 import { DashboardServices } from "services/dashboard";
-import { useUser } from "hooks";
 import { useSelector, useDispatch } from "react-redux";
 import { setLoader } from "store/loader";
-import { AuthServices } from "services/auth";
-import { setUser } from "store/auth";
 
 const Dashboard = (props) => {
   const dispatch = useDispatch();
@@ -94,12 +84,12 @@ const Dashboard = (props) => {
     // let data = chartExample1['data1']();
   }, []);
 
-  useEffect(async () => {
-    if (!currentUser) {
+  // useEffect(async () => {
+    // if (!currentUser) {
       // let authUser = await AuthServices.getAuthUser();
       // dispatch(setUser(authUser.data));
-    }
-  }, []);
+  //   }
+  // }, []);
 
   return (
     <>

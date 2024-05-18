@@ -71,11 +71,8 @@ const headCells = [
 
 function EnhancedTableHead(props) {
   const {
-    onSelectAllClick,
     order,
     orderBy,
-    numSelected,
-    rowCount,
     onRequestSort,
   } = props;
   const createSortHandler = (property) => (event) => {
@@ -248,7 +245,7 @@ export default function CustomTable(props) {
                       <TableCell colSpan={6} />
                     </TableRow>
                   )}
-                  {rows.length == 0 && (
+                  {rows.length === 0 && (
                     <TableCell
                       colSpan={headCells.length}
                       className="text-center text-muted"

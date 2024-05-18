@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 
 // reactstrap components
-import { Card, CardHeader, CardFooter, Container, Row } from "reactstrap";
+import { Card, CardHeader, Container, Row } from "reactstrap";
 
 import UserHeader from "components/Headers/UserHeader";
 import ProductsTable from "../../components/tables/productsTable";
