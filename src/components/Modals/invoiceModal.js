@@ -8,19 +8,21 @@ import {
 
 } from "reactstrap";
 
-export default function AddCustomerModal(props) {
+export default function InvoiceModal(props) {
   return (
     <>
       <Modal
         {...props}
-        size="xl"
+        size="lg"
         aria-labelledby="contained-modal-title-vcenter"
         centered
       >
-        <ModalHeader closeButton className="bg-light">
-          <h4>{props.title}</h4>
-        </ModalHeader>
-        <ModalBody>
+        {
+          props.title && <ModalHeader closeButton className="bg-light">
+            <h4>{props.title}</h4>
+          </ModalHeader>
+        }
+        <ModalBody style={{ overflow: "scroll" }}>
           {props.children}
         </ModalBody>
         <ModalFooter className="justify-content-between p-0">

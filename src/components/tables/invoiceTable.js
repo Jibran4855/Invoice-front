@@ -238,7 +238,7 @@ export default function CustomTable(props) {
                               <DropdownMenu className="dropdown-menu-arrow" right>
                                 <DropdownItem onClick={
                                   (e) => {
-                                    props.download(row._id);
+                                    props.download(row._id, row);
                                   }
                                 }>
                                   Download
