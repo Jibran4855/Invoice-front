@@ -82,12 +82,13 @@ class InvoiceClass {
     });
   };
 
-  downloadPdf = async (id) => {
+  downloadPdf = async (id, data) => {
     const API_PATH = `${process.env.REACT_APP_API_URL}/api/invoice/download/pdf/${id}`;
     return new Promise((resolve, reject) => {
       axios({
         method: "get",
         url: API_PATH,
+        params: JSON.stringify(data),
         responseType: 'blob',
         headers: {
           "content-type": "application/json",

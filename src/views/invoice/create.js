@@ -25,9 +25,14 @@ import { productsCalculation, productPriceSymbol } from "helpers/product";
 import { setError, setSuccess } from "../../store/alert";
 import Datetime from 'react-datetime';
 import moment from "moment";
+import { generateInvoiceHtml } from "./pdf";
+import jsPDF from 'jspdf';
+import { toPng } from 'html-to-image';
 
 const InvoiceCreate = (props) => {
   const dispatch = useDispatch();
+
+  const containerRef = useRef(null);
 
   const dateInputElement1 = useRef(null);
   const dateInputElement2 = useRef(null);
@@ -53,6 +58,8 @@ const InvoiceCreate = (props) => {
 
   const [showInvoiceDownload, setShowInvoiceDownload] = useState(false);
   const [createdInvoiceId, setCreatedInvoiceId] = useState("");
+  const [createdInvoiceData, setCreatedInvoiceData] = useState({});
+  const [showInvoice, setShowInvoice] = useState(false);
 
   useEffect(() => {
     generateInvoiceNumber();
@@ -206,7 +213,7 @@ const InvoiceCreate = (props) => {
       shippingAmount: shippingAmount,
       isTaxEnable: isTaxEnable,
     }
-
+    setCreatedInvoiceData(data);
     createInvoice(data);
   }
 
@@ -217,21 +224,98 @@ const InvoiceCreate = (props) => {
   const downloadInvoice = async () => {
     try {
       dispatch(setLoader(true));
+      setShowInvoice(true);
 
-      const response = await InvoiceServices.downloadPdf(createdInvoiceId);
-      const buffer =  await response.arrayBuffer();
+      const response = await InvoiceServices.getInvoice(createdInvoiceId);
 
-      const blob = new Blob([buffer], { type: 'application/pdf' });
+      if (containerRef.current) {
+        containerRef.current.innerHTML = generateInvoiceHtml(response.data);
+      }
 
-      const url = window.URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.href = url;
-      link.setAttribute('download', 'report.pdf');
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      
-      setShowInvoiceDownload(false)
+      setTimeout(() => {
+
+        const element = containerRef.current;
+        toPng(element, { quality: 1.0 })
+          .then((dataUrl) => {
+            // const imgData = dataUrl.toDataURL('image/png', 1.0);
+            const img = new Image();
+            img.crossOrigin = 'annoymous';
+            img.src = dataUrl;
+            // img.width = 1092;
+            img.onload = () => {
+              // Initialize the PDF.
+              const pdf = new jsPDF({
+                orientation: 'portrait',
+                unit: 'px',
+                format: "a4"
+                // format: [595, 842]
+              });
+
+              // Add the PNG image to the PDF
+              // pdf.addImage(dataUrl, 'PNG', 0, 0, pdf.internal.pageSize.getWidth(), pdf.internal.pageSize.getHeight());
+
+              // // Define reused data
+              const imgProps = pdf.getImageProperties(img);
+              const imageType = imgProps.fileType;
+              const pdfWidth = pdf.internal.pageSize.getWidth();
+              const imgPropsWidth = 800; //imgProps.width;
+              // const imgPropsWidth =  imgProps.width;
+
+              // // Calculate the number of pages.
+              const pxFullHeight = imgProps.height;
+              const pxPageHeight = Math.floor((imgPropsWidth * 8.5) / 5.5);
+              const nPages = Math.ceil(pxFullHeight / pxPageHeight);
+
+              // // Define pageHeight separately so it can be trimmed on the final page.
+              let pageHeight = pdf.internal.pageSize.getHeight();
+
+              // // Create a one-page canvas to split up the full image.
+              const pageCanvas = document.createElement('canvas');
+              const pageCtx = pageCanvas.getContext('2d');
+              pageCanvas.width = imgPropsWidth;
+              pageCanvas.height = pxPageHeight;
+
+              for (let page = 0; page < nPages; page++) {
+                // Trim the final page to reduce file size.
+                if (page === nPages - 1 && pxFullHeight % pxPageHeight !== 0) {
+                  pageCanvas.height = pxFullHeight % pxPageHeight;
+                  pageHeight = (pageCanvas.height * pdfWidth) / pageCanvas.width;
+                }
+                // Display the page.
+                // const w = pageCanvas.width;
+                // const h = pageCanvas.height;
+                // pageCtx.fillStyle = 'white';
+                // pageCtx.fillRect(0, 0, w, h);
+                // pageCtx.drawImage(img, 0, page * pxPageHeight, w, h, 0, 0, w, h);
+
+                // Add the page to the PDF.
+                if (page) pdf.addPage();
+
+                // const imgData = pageCanvas.toDataURL(`image/${imageType}`, 1);
+                pdf.addImage(dataUrl, imageType, 0, 0, pdfWidth, pageHeight);
+              }
+              // Output / Save
+              pdf.save(`invoice-${createdInvoiceData.invoiceNumber}.pdf`);
+              dispatch(setLoader(false));
+            };
+          })
+      }, 1000);
+
+
+      // const response = await InvoiceServices.downloadPdf(createdInvoiceId);
+      // const buffer =  await response.arrayBuffer();
+
+      // const blob = new Blob([buffer], { type: 'application/pdf' });
+
+      // const url = window.URL.createObjectURL(blob);
+      // const link = document.createElement('a');
+      // link.href = url;
+      // link.setAttribute('download', 'report.pdf');
+      // document.body.appendChild(link);
+      // link.click();
+      // document.body.removeChild(link);
+
+      // setShowInvoiceDownload(false)
       dispatch(setLoader(false));
     } catch (e) {
       console.log({ e });
@@ -655,7 +739,9 @@ const InvoiceCreate = (props) => {
         }
 
       </InvoiceModal>
-
+      <InvoiceModal isOpen={showInvoice} hideModal={() => setShowInvoice(false)}>
+        <div style={{ width: "600px" }} ref={containerRef}></div>
+      </InvoiceModal>
     </RightContent>
 
   );
