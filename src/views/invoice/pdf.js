@@ -10,12 +10,13 @@ let generateInvoiceHtml = (data) => {
                     <tr>
                         <td style="width:50%;">
                             <div>
-                                <h1>${data.createdByUser.invoiceTitle ? data.createdByUser.invoiceTitle : "No Title"}</h1>
+                                <h3 style="color:black;">${data.createdByUser.fullname}</h3>
+                                <h1 style="color:black;">${data.createdByUser.invoiceTitle ? data.createdByUser.invoiceTitle : "No Title"}</h1>
                             </div>
                         </td>
                         <td>
                             <div>
-                                <h1 style="text-align: right;">${data.invoiceType.toUpperCase()} </h1>
+                                <h1 style="text-align: right;color:black;">${data.invoiceType.toUpperCase()} </h1>
                                 <table style="font-size:12px;width: 100%;">
                                     <tbody>
                                         <tr>
@@ -39,7 +40,7 @@ let generateInvoiceHtml = (data) => {
         
                 <table style="margin-top: 50px;font-size:12px;width: 100%;">
                     <tr style="text-align: left;font-size:14px;">
-                        <th style="border-bottom: 2px solid;">OUR INFORMATION</th>
+                        <th style="border-bottom: 2px solid;white-space: nowrap;min-width: 12rem;">OUR INFORMATION</th>
                         <th style="border-bottom: 2px solid;">BILLING TO</th>
                         <th style="border-bottom: 2px solid;">SHIPPING TO</th>
                     </tr>
@@ -49,12 +50,12 @@ let generateInvoiceHtml = (data) => {
                         <th style="padding: 10px 0;" class="ship_name">${data.customer.shipping.name}</th>
                     </tr>
                     <tr style="text-align: left;color: #555555;">
-                        <td style="padding: 5px 0;" class="our_add_1"></td>
+                        <td style="padding: 5px 0;" class="our_add_1">${data.createdByUser.email ?? "-"}</td>
                         <td style="padding: 5px 0;" class="cus_add_1">${data.customer.addressOne ?? "-"}</td>
                         <td style="padding: 5px 0;" class="ship_add_1">${data.customer.shipping.addressOne ?? "-"}</td>
                     </tr>
                     <tr style="text-align: left;color: #555555;">
-                        <td style="padding: 5px 0;" class="our_add_2"></td>
+                        <td style="padding: 5px 0;" class="our_add_2">${data.createdByUser.phone ?? "-"}</td>
                         <td style="padding: 5px 0;" class="cus_add_2">${data.customer.addressTwo ?? "-"}</td>
                         <td style="padding: 5px 0;" class="ship_add_2">${data.customer.shipping.addressTwo ?? "-"}</td>
                     </tr>

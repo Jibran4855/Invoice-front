@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
+import { BrowserRouter, HashRouter , Switch, Redirect } from "react-router-dom";
 
 import "assets/plugins/nucleo/css/nucleo.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
@@ -29,7 +29,7 @@ ReactDOM.render(
   <Provider store={store}>
     <AuthProvider>
       <QueryClientProvider client={queryClient}>
-        <BrowserRouter>
+        <HashRouter>
           <Switch>
             <UnauthRoute exact path="/login" />
             <AuthRoute exact path="/dashboard" />
@@ -42,7 +42,7 @@ ReactDOM.render(
             <AuthRoute exact path="/profile" />
             <Redirect from="/" to="/login" />
           </Switch>
-        </BrowserRouter>
+        </HashRouter>
       </QueryClientProvider>
     </AuthProvider>
   </Provider>
