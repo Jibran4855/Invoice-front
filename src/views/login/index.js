@@ -46,7 +46,7 @@ const Login = () => {
     <>
       <Col lg="5" md="7">
         <Card className="bg-secondary shadow border-0 login-card">
-          <CardBody className="px-lg-5 py-lg-5">
+          <CardBody className="px-lg-4 py-lg-4">
             {/* <Container>
               <div className="header-body text-center mb-5">
                 <Row className="justify-content-center">
@@ -57,10 +57,16 @@ const Login = () => {
               </div>
             </Container> */}
             <div className="text-center text-muted mb-4 heading-box">
-              <h1>
+              {/* <h1>
                 <i className="ni ni-email-83" />
                 Invoice System
-              </h1>
+              </h1> */}
+              <img
+                alt="Logo"
+                className="navbar-brand-img"
+                style={{ maxHeight: "6rem" }}
+                src={require("../../assets/img/brand/logo.png").default}
+              />
             </div>
             <Form role="form" onSubmit={handleSubmit}>
               <FormGroup className="mb-3">

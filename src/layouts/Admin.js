@@ -85,11 +85,11 @@ const Admin = (props) => {
       <Sidebar
         {...props}
         routes={routes}
-        // logo={{
-        //   innerLink: "/admin/index",
-        //   imgSrc: require("../assets/img/brand/booky_logo.png").default,
-        //   imgAlt: "...",
-        // }}
+        logo={{
+          innerLink: "/dashboard",
+          imgSrc: require("../assets/img/brand/logo.png").default,
+          imgAlt: "...",
+        }}
         title="Invoiciano"
       />
       <div className="main-content" ref={mainContent}>
