@@ -10,7 +10,7 @@ let generateInvoiceHtml = (data) => {
                     <tr>
                         <td style="width:50%;">
                             <div>
-                                <h3 style="color:black;">${data.createdByUser.fullname}</h3>
+                                <img style="max-height: 5rem" src=${require("../../assets/img/brand/logo.png").default}/>
                                 <h1 style="color:black;">${data.createdByUser.invoiceTitle ? data.createdByUser.invoiceTitle : "No Title"}</h1>
                             </div>
                         </td>
