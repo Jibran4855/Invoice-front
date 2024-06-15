@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import ReactDOMServer from "react-dom/server";
 
 // reactstrap components
 import {
@@ -27,7 +28,7 @@ import Datetime from 'react-datetime';
 import moment from "moment";
 import { generateInvoiceHtml } from "./pdf";
 import jsPDF from 'jspdf';
-import { toPng } from 'html-to-image';
+import { toPng, toCanvas } from 'html-to-image';
 
 const InvoiceCreate = (props) => {
   const dispatch = useDispatch();
@@ -227,17 +228,16 @@ const InvoiceCreate = (props) => {
       setShowInvoice(true);
 
       const response = await InvoiceServices.getInvoice(createdInvoiceId);
+      const pdfHTML = generateInvoiceHtml(response.data);
 
       if (containerRef.current) {
-        containerRef.current.innerHTML = generateInvoiceHtml(response.data);
+        containerRef.current.innerHTML = ReactDOMServer.renderToStaticMarkup(pdfHTML);
       }
 
       setTimeout(() => {
-
-        const element = containerRef.current;
-        toPng(element, { quality: 1.0 })
-          .then((dataUrl) => {
-            // const imgData = dataUrl.toDataURL('image/png', 1.0);
+        toCanvas(containerRef.current)
+          .then((canvas) => {
+            const dataUrl = canvas.toDataURL('image/png', 1.0);
             const img = new Image();
             img.crossOrigin = 'annoymous';
             img.src = dataUrl;
@@ -740,7 +740,7 @@ const InvoiceCreate = (props) => {
 
       </InvoiceModal>
       <InvoiceModal isOpen={showInvoice} hideModal={() => setShowInvoice(false)}>
-        <div style={{ width: "600px" }} ref={containerRef}></div>
+        <div style={{ width: "600px" }} ref={containerRef} id="capture"></div>
       </InvoiceModal>
     </RightContent>
 

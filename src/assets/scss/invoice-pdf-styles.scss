@@ -1,0 +1,114 @@
+/* InvoiceStyles.css */
+.invoice-container {
+    color: black;
+    margin-top: 50px;
+    padding: 0 5%;
+
+    .mt-50 {
+        margin-top: 50px;
+    }
+}
+
+.invoice-table {
+    color: black;
+    width: 100%;
+}
+
+.invoice-logo {
+    max-height: 5rem;
+}
+
+.invoice-title {
+    color: black;
+}
+
+.invoice-header {
+    text-align: right;
+    color: black;
+}
+
+.invoice-header-table {
+    font-size: 12px;
+    width: 100%;
+}
+
+.invoice-header-th {
+    text-align: left;
+}
+
+.invoice-header-td {
+    text-align: right;
+}
+
+.info-table {
+    margin-top: 50px;
+    font-size: 12px;
+    width: 100%;
+    text-align: left;
+}
+
+.info-table-th {
+    border-bottom: 2px solid;
+    white-space: nowrap;
+    // min-width: 12rem;
+    padding: 10px 0;
+}
+
+.info-table-td {
+    padding: 5px 0;
+    color: #555555;
+}
+
+.product-table {
+    margin-top: 50px;
+    font-size: 12px;
+    width: 100%;
+    text-align: left;
+}
+
+.product-table-th {
+    border-bottom: 2px solid;
+    padding: 10px 5px;
+    text-align: center;
+}
+
+.total-section {
+    background: lightgray;
+    text-align: center;
+    padding: 10px 0;
+}
+
+.total-due {
+    background: black;
+    color: white;
+    text-align: center;
+    padding: 10px 0;
+}
+
+.invoice-status {
+    font-size: 35px;
+    font-weight: 700;
+    border: 2px solid;
+    padding: 5px;
+    transform: rotate(340deg);
+    display: inline-block;
+}
+
+.customer-notes {
+    margin-top: 50px;
+    font-size: 12px;
+    width: 100%;
+    text-align: left;
+    color: #555555;
+    border-bottom: 2px solid;
+    padding: 10px 0;
+}
+
+.product-row {
+    background: lightgray;
+}
+
+.product-cell {
+    padding: 10px 5px;
+    text-align: center;
+}
