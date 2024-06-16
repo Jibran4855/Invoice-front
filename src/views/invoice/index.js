@@ -49,78 +49,52 @@ const Invoices = () => {
 
       const pdfHTML = generateInvoiceHtml(_data);
 
-      setTimeout(() => {
+      setTimeout(async () => {
         if (containerRef.current) {
           containerRef.current.innerHTML = ReactDOMServer.renderToStaticMarkup(pdfHTML);
         }
-      }, 1000);
 
-      setTimeout(() => {
+        const images = containerRef.current.getElementsByTagName('img');
+        const promises = [];
+
+        for (let img of images) {
+          if (!img.complete) {
+            promises.push(
+              new Promise((resolve) => {
+                img.onload = img.onerror = resolve; // Resolve on either load or error
+              })
+            );
+          }
+        }
+
+        if (promises.length > 0) {
+          await Promise.all(promises);
+        }
+
         toCanvas(containerRef.current)
           .then((canvas) => {
             const dataUrl = canvas.toDataURL('image/png', 1.0);
             const img = new Image();
             img.crossOrigin = 'annoymous';
             img.src = dataUrl;
-            // img.width = 1092;
             img.onload = () => {
               // Initialize the PDF.
               const pdf = new jsPDF({
                 orientation: 'portrait',
                 unit: 'px',
-                format: "a4"
-                // format: [595, 842]
+                // format: "a4"
+                format: [595, img.height]
               });
 
               // Add the PNG image to the PDF
-              // pdf.addImage(dataUrl, 'PNG', 0, 0, pdf.internal.pageSize.getWidth(), pdf.internal.pageSize.getHeight());
+              pdf.addImage(dataUrl, 'PNG', 0, 0, pdf.internal.pageSize.getWidth(), pdf.internal.pageSize.getHeight() - 50);
 
-              // // Define reused data
-              const imgProps = pdf.getImageProperties(img);
-              const imageType = imgProps.fileType;
-              const pdfWidth = pdf.internal.pageSize.getWidth();
-              const imgPropsWidth = 800; //imgProps.width;
-              // const imgPropsWidth =  imgProps.width;
-
-              // // Calculate the number of pages.
-              const pxFullHeight = imgProps.height;
-              const pxPageHeight = Math.floor((imgPropsWidth * 8.5) / 5.5);
-              const nPages = Math.ceil(pxFullHeight / pxPageHeight);
-
-              // // Define pageHeight separately so it can be trimmed on the final page.
-              let pageHeight = pdf.internal.pageSize.getHeight();
-
-              // // Create a one-page canvas to split up the full image.
-              const pageCanvas = document.createElement('canvas');
-              const pageCtx = pageCanvas.getContext('2d');
-              pageCanvas.width = imgPropsWidth;
-              pageCanvas.height = pxPageHeight;
-
-              for (let page = 0; page < nPages; page++) {
-                // Trim the final page to reduce file size.
-                if (page === nPages - 1 && pxFullHeight % pxPageHeight !== 0) {
-                  pageCanvas.height = pxFullHeight % pxPageHeight;
-                  pageHeight = (pageCanvas.height * pdfWidth) / pageCanvas.width;
-                }
-                // Display the page.
-                // const w = pageCanvas.width;
-                // const h = pageCanvas.height;
-                // pageCtx.fillStyle = 'white';
-                // pageCtx.fillRect(0, 0, w, h);
-                // pageCtx.drawImage(img, 0, page * pxPageHeight, w, h, 0, 0, w, h);
-
-                // Add the page to the PDF.
-                if (page) pdf.addPage();
-
-                // const imgData = pageCanvas.toDataURL(`image/${imageType}`, 1);
-                pdf.addImage(dataUrl, imageType, 0, 0, pdfWidth, pageHeight);
-              }
               // Output / Save
               pdf.save(`invoice-${_data.invoiceNumber}.pdf`);
               dispatch(setLoader(false));
             };
           })
-      }, 2000);
+      }, 1000);
 
       // const response = await InvoiceServices.downloadPdf(id, data);
       // const buffer = await response.arrayBuffer();
