@@ -235,7 +235,7 @@ const Invoices = () => {
         </Row>
 
         <InvoiceModal isOpen={showInvoice} hideModal={() => setShowInvoice(false)}>
-          <div style={{ width: "600px" }} ref={containerRef} id="capture"></div>
+          <div ref={containerRef} id="capture-pdf"></div>
         </InvoiceModal>
       </Container>
     </>
