@@ -1,7 +1,8 @@
+import ReactDOMServer from "react-dom/server";
 import { useState, useEffect, useRef } from "react";
 import { generateInvoiceHtml } from "./pdf";
 import jsPDF from 'jspdf';
-import { toPng } from 'html-to-image';
+import { toCanvas } from 'html-to-image';
 import InvoiceModal from "components/Modals/invoiceModal";
 // reactstrap components
 import { Card, CardHeader, Container, Row, Button } from "reactstrap";
@@ -9,7 +10,6 @@ import { Card, CardHeader, Container, Row, Button } from "reactstrap";
 import UserHeader from "components/Headers/UserHeader";
 import InvoiceTable from "../../components/tables/invoiceTable";
 import { InvoiceServices } from "services/invoice";
-
 import { useDispatch } from "react-redux";
 import { setLoader } from "../../store/loader";
 import { setError, setSuccess } from "../../store/alert";
@@ -43,20 +43,22 @@ const Invoices = () => {
 
   const downloadInvoice = async (id, _data) => {
     try {
+
       dispatch(setLoader(true));
       setShowInvoice(true);
 
-      
+      const pdfHTML = generateInvoiceHtml(_data);
+
       setTimeout(() => {
-     
         if (containerRef.current) {
-          containerRef.current.innerHTML = generateInvoiceHtml(_data);
+          containerRef.current.innerHTML = ReactDOMServer.renderToStaticMarkup(pdfHTML);
         }
-     
-        const element = containerRef.current;
-        toPng(element, { quality: 1.0 })
-          .then((dataUrl) => {
-            // const imgData = dataUrl.toDataURL('image/png', 1.0);
+      }, 1000);
+
+      setTimeout(() => {
+        toCanvas(containerRef.current)
+          .then((canvas) => {
+            const dataUrl = canvas.toDataURL('image/png', 1.0);
             const img = new Image();
             img.crossOrigin = 'annoymous';
             img.src = dataUrl;
@@ -118,9 +120,7 @@ const Invoices = () => {
               dispatch(setLoader(false));
             };
           })
-      }, 1000);
-
-      // dispatch(setLoader(true));
+      }, 2000);
 
       // const response = await InvoiceServices.downloadPdf(id, data);
       // const buffer = await response.arrayBuffer();
@@ -233,8 +233,9 @@ const Invoices = () => {
             </Card>
           </div>
         </Row>
+
         <InvoiceModal isOpen={showInvoice} hideModal={() => setShowInvoice(false)}>
-          <div style={{ width: "600px" }} ref={containerRef}></div>
+          <div ref={containerRef} id="capture-pdf"></div>
         </InvoiceModal>
       </Container>
     </>
