@@ -260,10 +260,10 @@ const InvoiceCreate = (props) => {
           img.onload = () => {
             // Initialize the PDF.
             const pdf = new jsPDF({
-              orientation: 'portrait',
+              // orientation: 'portrait',
               unit: 'px',
               // format: "a4"
-              format: [595, img.height]
+              format: [img.width, img.height],
             });
 
             // Add the PNG image to the PDF
