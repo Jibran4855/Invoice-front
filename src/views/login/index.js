@@ -38,7 +38,7 @@ const Login = () => {
       }, 1000);
     } catch (e) {
       dispatch(setLoader(false));
-      dispatch(setError(e?.data?.error));
+      dispatch(setError(e?.data?.message));
     }
   };
 
