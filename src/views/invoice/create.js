@@ -28,7 +28,7 @@ import Datetime from 'react-datetime';
 import moment from "moment";
 import { generateInvoiceHtml } from "./pdf";
 import jsPDF from 'jspdf';
-import { toPng, toCanvas } from 'html-to-image';
+import { toCanvas } from 'html-to-image';
 
 const InvoiceCreate = (props) => {
   const dispatch = useDispatch();
@@ -41,7 +41,10 @@ const InvoiceCreate = (props) => {
   const [invoiceData, setInvoiceData] = useState({
     invoiceStatus: "open",
     invoiceType: "invoice",
+    issueDate: moment().format('YYYY-MM-DD'),
+    dueDate: moment().format('YYYY-MM-DD')
   });
+
   const [invoiceCustomerData, setInvoiceCustomerData] = useState({});
   const [invoiceShippingData, setInvoiceShippingData] = useState({});
   const [invoiceProductData, setInvoiceProductData] = useState([]);
