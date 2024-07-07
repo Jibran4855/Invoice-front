@@ -78,7 +78,7 @@ const Customer = (props) => {
       let confirmation = await confirm({
         title: "",
         message:
-          "! Are you sure you want to delete this ? Because this action cannot be undone'",
+          "! Are you sure you want to delete this ? Because this action cannot be undone",
         confirmText: "DELETE",
         confirmColor: "danger",
         cancelColor: "link text-primary",

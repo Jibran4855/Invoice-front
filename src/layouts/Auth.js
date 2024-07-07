@@ -59,11 +59,11 @@ const Auth = (props) => {
     draggable: true,
     theme: 'dark'
   })
-  
+
   isSuccess && toast.success(alertMessage, {
     autoClose: 2000,
     draggable: true,
-    theme:'dark'
+    theme: 'dark'
   })
 
   if (isError || isSuccess) {
@@ -77,7 +77,7 @@ const Auth = (props) => {
 
       <div className="custom-bg-gradient-dark">
         <div className="main-content " ref={mainContent}>
-          {/* <AuthNavbar /> */}
+          <AuthNavbar />
           <div className="header py-7 py-lg-8">
             {/* <Container>
               <div className="header-body text-center mb-5">
