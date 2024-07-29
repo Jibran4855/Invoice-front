@@ -192,8 +192,7 @@ class InvoiceGenerator {
         this.addInvoiceStatus();
         this.addCustomerNotes();
 
-        // this.downloadPDF();
-        this.previewPDF();
+        this.downloadPDF();
     }
 }
 
