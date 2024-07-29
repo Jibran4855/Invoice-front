@@ -1,8 +1,6 @@
 import ReactDOMServer from "react-dom/server";
 import { useState, useEffect, useRef } from "react";
 import { generateInvoiceHtml } from "./pdf";
-import jsPDF from 'jspdf';
-import { toCanvas } from 'html-to-image';
 import InvoiceModal from "components/Modals/invoiceModal";
 // reactstrap components
 import { Card, CardHeader, Container, Row, Button } from "reactstrap";
@@ -15,6 +13,8 @@ import { setLoader } from "../../store/loader";
 import { setError, setSuccess } from "../../store/alert";
 import confirm from "reactstrap-confirm";
 import moment from "moment";
+
+import { InvoiceGenerator } from '../../helpers/pdf';
 
 const Invoices = () => {
   const containerRef = useRef(null);
@@ -50,67 +50,18 @@ const Invoices = () => {
       const pdfHTML = generateInvoiceHtml(_data);
 
       setTimeout(async () => {
+
         if (containerRef.current) {
           containerRef.current.innerHTML = ReactDOMServer.renderToStaticMarkup(pdfHTML);
         }
 
-        const images = containerRef.current.getElementsByTagName('img');
-        const promises = [];
+        const invoiceInstance = new InvoiceGenerator(_data);
 
-        for (let img of images) {
-          if (!img.complete) {
-            promises.push(
-              new Promise((resolve) => {
-                img.onload = img.onerror = resolve; // Resolve on either load or error
-              })
-            );
-          }
-        }
+        invoiceInstance.generate();
 
-        if (promises.length > 0) {
-          await Promise.all(promises);
-        }
-
-        toCanvas(containerRef.current)
-          .then((canvas) => {
-            const dataUrl = canvas.toDataURL('image/png', 1.0);
-            const img = new Image();
-            img.crossOrigin = 'annoymous';
-            img.src = dataUrl;
-            img.onload = () => {
-              // Initialize the PDF.
-              const pdf = new jsPDF({
-                // orientation: 'portrait',
-                unit: 'px',
-                // format: "a4"
-                format: [img.width, img.height],
-              });
-
-              // Add the PNG image to the PDF
-              pdf.addImage(dataUrl, 'PNG', 0, 0, pdf.internal.pageSize.getWidth(), pdf.internal.pageSize.getHeight() - 50);
-
-              // Output / Save
-              pdf.save(`invoice-${_data.invoiceNumber}.pdf`);
-              dispatch(setLoader(false));
-            };
-          })
+        dispatch(setLoader(false));
       }, 1000);
 
-      // const response = await InvoiceServices.downloadPdf(id, data);
-      // const buffer = await response.arrayBuffer();
-
-      // const blob = new Blob([buffer], { type: 'application/pdf' });
-
-      // const url = window.URL.createObjectURL(blob);
-      // const link = document.createElement('a');
-      // link.href = url;
-      // link.setAttribute('download', 'invoice.pdf');
-      // document.body.appendChild(link);
-      // link.click();
-      // document.body.removeChild(link);
-
-      // // setInvoices(response.data);
-      // dispatch(setLoader(false));
     } catch (e) {
       console.log({ e });
       dispatch(setLoader(false));

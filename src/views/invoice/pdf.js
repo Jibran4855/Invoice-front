@@ -90,61 +90,66 @@ let generateInvoiceHtml = (data) => {
                 </tr>
             </table>
 
-            <table className="product-table">
-                <tr>
-                    <th className="product-table-th">PRODUCT</th>
-                    <th className="product-table-th">QUANTITY</th>
-                    <th className="product-table-th">VAT</th>
-                    <th className="product-table-th">PRICE</th>
-                    <th className="product-table-th">DISCOUNT</th>
-                    <th className="product-table-th">TOTAL</th>
-                </tr>
+            <table className="product-table" id='my-table'>
+                <thead>
+                    <tr>
+                        <th className="product-table-th" >PRODUCT</th>
+                        <th className="product-table-th">QUANTITY</th>
+                        <th className="product-table-th">VAT</th>
+                        <th className="product-table-th">PRICE</th>
+                        <th className="product-table-th">DISCOUNT</th>
+                        <th className="product-table-th">TOTAL</th>
+                    </tr>
+                </thead>
 
                 {/* Product Listing */}
-                {productListing(data)}
-
+                <tbody>
+                    {productListing(data)}
+                </tbody>
                 {/* Total */}
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <th className="total-section">Total</th>
-                    <th className="total-section">Rs. {data.total.subTotal}</th>
-                </tr>
-                <tr>
-                    <td rowSpan="2">
-                        <p className="invoice-status">{data.invoiceStatus.toUpperCase()}</p>
-                    </td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <th className="total-section">Discount</th>
-                    <th className="total-section">Rs. {data.total.discount}</th>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <th className="total-section">Shipping</th>
-                    <th className="total-section">Rs. {data.shippingAmount}</th>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <th className="total-section">TAX/VAT 10%</th>
-                    <th className="total-section">Rs. {data.total.tax}</th>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <th className="total-due">Total Due</th>
-                    <th className="total-due">Rs. {data.total.total}</th>
-                </tr>
+                <tfoot>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <th className="total-section">Total</th>
+                        <th className="total-section">Rs. {data.total.subTotal}</th>
+                    </tr>
+                    <tr>
+                        <td rowSpan="2">
+                            {/* <p className="invoice-status">{data.invoiceStatus.toUpperCase()}</p> */}
+                        </td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <th className="total-section">Discount</th>
+                        <th className="total-section">Rs. {data.total.discount}</th>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <th className="total-section">Shipping</th>
+                        <th className="total-section">Rs. {data.shippingAmount}</th>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <th className="total-section">TAX/VAT 10%</th>
+                        <th className="total-section">Rs. {data.total.tax}</th>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <th className="total-due">Total Due</th>
+                        <th className="total-due">Rs. {data.total.total}</th>
+                    </tr>
+                </tfoot>
             </table>
 
             <table className="customer-notes">

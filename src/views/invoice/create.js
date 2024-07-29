@@ -27,8 +27,7 @@ import { setError, setSuccess } from "../../store/alert";
 import Datetime from 'react-datetime';
 import moment from "moment";
 import { generateInvoiceHtml } from "./pdf";
-import jsPDF from 'jspdf';
-import { toCanvas } from 'html-to-image';
+import { InvoiceGenerator } from '../../helpers/pdf';
 
 const InvoiceCreate = (props) => {
   const dispatch = useDispatch();
@@ -237,62 +236,10 @@ const InvoiceCreate = (props) => {
         containerRef.current.innerHTML = ReactDOMServer.renderToStaticMarkup(pdfHTML);
       }
 
-      const images = containerRef.current.getElementsByTagName('img');
-      const promises = [];
+      const invoiceInstance = new InvoiceGenerator(response.data);
 
-      for (let img of images) {
-        if (!img.complete) {
-          promises.push(
-            new Promise((resolve) => {
-              img.onload = img.onerror = resolve; // Resolve on either load or error
-            })
-          );
-        }
-      }
+      invoiceInstance.generate();
 
-      if (promises.length > 0) {
-        await Promise.all(promises);
-      }
-
-      toCanvas(containerRef.current)
-        .then((canvas) => {
-          const dataUrl = canvas.toDataURL('image/png', 1.0);
-          const img = new Image();
-          img.crossOrigin = 'annoymous';
-          img.src = dataUrl;
-          img.onload = () => {
-            // Initialize the PDF.
-            const pdf = new jsPDF({
-              // orientation: 'portrait',
-              unit: 'px',
-              // format: "a4"
-              format: [img.width, img.height],
-            });
-
-            // Add the PNG image to the PDF
-            pdf.addImage(dataUrl, 'PNG', 0, 0, pdf.internal.pageSize.getWidth(), pdf.internal.pageSize.getHeight() - 50);
-
-            // Output / Save
-            pdf.save(`invoice-${createdInvoiceData.invoiceNumber}.pdf`);
-            dispatch(setLoader(false));
-          };
-        })
-
-
-      // const response = await InvoiceServices.downloadPdf(createdInvoiceId);
-      // const buffer =  await response.arrayBuffer();
-
-      // const blob = new Blob([buffer], { type: 'application/pdf' });
-
-      // const url = window.URL.createObjectURL(blob);
-      // const link = document.createElement('a');
-      // link.href = url;
-      // link.setAttribute('download', 'report.pdf');
-      // document.body.appendChild(link);
-      // link.click();
-      // document.body.removeChild(link);
-
-      // setShowInvoiceDownload(false)
       dispatch(setLoader(false));
     } catch (e) {
       console.log({ e });
